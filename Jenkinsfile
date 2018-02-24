@@ -31,5 +31,10 @@ node (label: 'dvmaster03-JSlave') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
+        stage('Deploy') {
+        /* Finally, we'll deploy the image to k8s:
+         * Pushing multiple tags is cheap, as all the layers are reused. */
+          kubectl set image deployment/wildfly wildfly=abcloudlab/wildfly:("${env.BUILD_NUMBER}")
+        }
     }
 }
